@@ -947,6 +947,32 @@ public final class Materials {
         MATERIAL_FLAGS.put(Material.CHISELED_SULFUR, 0);
         putMaterialTag(Tag.SPELEOTHEMS, 0);
 
+        // 26.3
+        putMaterialTag(Tag.CONCRETE_SLABS, 0);
+        putMaterialTag(Tag.CONCRETE_STAIRS, 0);
+        putMaterialTag(Tag.WOOL_SLABS, 0);
+        putMaterialTag(Tag.WOOL_STAIRS, 0);
+        putMaterialTag(Tag.ITEMS_CUSHIONS, 0);
+        MATERIAL_FLAGS.put(Material.RED_SHRUB, 0);
+        MATERIAL_FLAGS.put(Material.SHELF_MUSHROOM, 0);
+        MATERIAL_FLAGS.put(Material.STRAW_BED, MODIFIED_ON_RIGHT);
+        MATERIAL_FLAGS.put(Material.ABANDONED_CAMP_MAP, 0);
+        MATERIAL_FLAGS.put(Material.BURIED_ANCIENT_CITY_MAP, 0);
+        MATERIAL_FLAGS.put(Material.BURIED_MINESHAFT_MAP, 0);
+        MATERIAL_FLAGS.put(Material.BURIED_TREASURE_MAP, 0);
+        MATERIAL_FLAGS.put(Material.BURIED_TRIAL_CHAMBERS_MAP, 0);
+        MATERIAL_FLAGS.put(Material.DESERT_PYRAMID_MAP, 0);
+        MATERIAL_FLAGS.put(Material.DESERT_VILLAGE_MAP, 0);
+        MATERIAL_FLAGS.put(Material.JUNGLE_PYRAMID_MAP, 0);
+        MATERIAL_FLAGS.put(Material.OCEAN_MONUMENT_MAP, 0);
+        MATERIAL_FLAGS.put(Material.PLAINS_VILLAGE_MAP, 0);
+        MATERIAL_FLAGS.put(Material.SAVANNA_VILLAGE_MAP, 0);
+        MATERIAL_FLAGS.put(Material.SNOWY_VILLAGE_MAP, 0);
+        MATERIAL_FLAGS.put(Material.SWAMP_HUT_MAP, 0);
+        MATERIAL_FLAGS.put(Material.TAIGA_VILLAGE_MAP, 0);
+        MATERIAL_FLAGS.put(Material.WARM_OCEAN_RUINS_MAP, 0);
+        MATERIAL_FLAGS.put(Material.WOODLAND_MANSION_MAP, 0);
+
         Stream.concat(Stream.concat(
                 Tag.CORAL_BLOCKS.getValues().stream(),
                 Tag.CORALS.getValues().stream()),
@@ -1168,6 +1194,16 @@ public final class Materials {
      */
     public static boolean isBoat(Material material) {
         return Tag.ITEMS_BOATS.isTagged(material);
+    }
+
+    /**
+     * Test whether the given material is a cushion item, which places a cushion entity.
+     *
+     * @param material the material
+     * @return true if a cushion
+     */
+    public static boolean isCushion(Material material) {
+        return Tag.ITEMS_CUSHIONS.isTagged(material);
     }
 
     /**
