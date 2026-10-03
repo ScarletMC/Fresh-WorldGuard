@@ -44,8 +44,8 @@ import java.util.function.Consumer;
 public class BukkitSessionManager extends AbstractSessionManager implements Runnable, Listener {
 
     /**
-     * Re-initialize handlers and clear "last position," "last state," etc.
-     * information for all players.
+     * Restore handler-managed state, re-initialize handlers, and clear
+     * "last position," "last state," etc. information for all players.
      */
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -82,17 +82,20 @@ public class BukkitSessionManager extends AbstractSessionManager implements Runn
 
     @EventHandler
     public void onPlayerProcess(ProcessPlayerEvent event) {
-        // Preload a session
+        // Create a new session or re-initialize a cached one.
+        Runnable task = () -> {
+            LocalPlayer player = WorldGuardPlugin.inst().wrapPlayer(event.getPlayer());
+            Session session = getIfPresent(player);
+            if (session == null) {
+                get(player); // this also initializes the new session
+            } else {
+                session.resetState(player); // old sessions need explicit re-initialization
+            }
+        };
         if (WorldGuardPlugin.inst().isFolia()) {
-            event.getPlayer().getScheduler().run(WorldGuardPlugin.inst(), (scheduledTask) -> {
-                LocalPlayer player = WorldGuardPlugin.inst().wrapPlayer(event.getPlayer());
-                get(player).initialize(player);
-            }, null);
+            event.getPlayer().getScheduler().run(WorldGuardPlugin.inst(), (scheduledTask) -> task.run(), null);
         } else {
-            Bukkit.getScheduler().runTaskAsynchronously(WorldGuardPlugin.inst(), () -> {
-                LocalPlayer player = WorldGuardPlugin.inst().wrapPlayer(event.getPlayer());
-                get(player).initialize(player);
-            });
+            Bukkit.getScheduler().runTaskAsynchronously(WorldGuardPlugin.inst(), task);
         }
     }
 
